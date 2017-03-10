@@ -1,0 +1,62 @@
+#!/bin/sh
+#function: copy file before release
+#param1: default configuration parameter dir
+
+#assige value
+DEFAULTDIR=$1
+if [ "$DEFAULTDIR" == "" ];then
+	DEFAULTDIR=default
+fi 
+
+#make dir
+mkdir -p ./dyjcupdate/
+mkdir -p ./dyjc/program/
+mkdir -p ./dyjc/register/
+mkdir -p ./dyjc/script/
+mkdir -p ./dyjc/set/default/
+mkdir -p ./dyjc/set/factest/
+mkdir -p ./resource/
+mkdir -p ./system/
+mkdir -p ./zone/
+
+#romove old file
+rm -fr ./dyjcupdate/*
+rm -fr ./dyjc/program/*
+rm -fr ./dyjc/register/*
+rm -fr ./dyjc/script/*
+rm -fr ./dyjc/set/default/*
+rm -fr ./dyjc/set/factest/*
+rm -fr ./resource/*
+rm -fr ./system/*
+rm -fr ./zone/*
+
+#copy file
+echo "copy config files..."
+cp -f ./*.doc ./dyjcupdate/
+cp -f ../mnt/dyjc/program/*.so ./dyjc/program/
+cp -f ../mnt/dyjc/program/dyjc* ./dyjc/program/
+cp -f ../mnt/dyjc/register/*.ini ./dyjc/register/
+cp -f ../mnt/dyjc/script/*.srt ./dyjc/script/
+cp -f ../mnt/dyjc/script/*.sh ./dyjc/script/
+#cp -f ../mnt/dyjc/set/default/*.ini ./dyjc/set/default/
+cp -f ../mnt/dyjc/set/factest/*.ini ./dyjc/set/factest/
+cp -f ../mnt/resource/*.bin ./resource/
+cp -f ../mnt/resource/md5 ./resource/
+cp -f ../mnt/system/*.ini ./system/
+cp -f ../mnt/zone/*.ini ./zone/
+cp -f ../mnt/zone/*.tgz ./zone/
+
+echo "copy default files..."
+cp -f ../zone/default/dyjc/register/*.ini ./dyjc/register/	
+cp -f ../zone/default/dyjc/set/default/*.ini ./dyjc/set/default/
+cp -f ../zone/default/system/*.ini ./system/
+
+#copy default configuration
+if [ "$DEFAULTDIR" != "" ];then
+	echo "copy zone files: $DEFAULTDIR"
+	cp -f ../zone/$DEFAULTDIR/dyjc/program/*.so ./dyjc/program/
+	cp -f ../zone/$DEFAULTDIR/dyjc/register/*.ini ./dyjc/register/	
+	cp -f ../zone/$DEFAULTDIR/dyjc/set/default/*.ini ./dyjc/set/default/
+	cp -f ../zone/$DEFAULTDIR/system/*.ini ./system/
+fi
+

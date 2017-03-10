@@ -1,0 +1,6 @@
+#!/bin/sh
+echo "On dyjc start..."
+
+/mnt/dyjc/script/ppp_clear.srt
+/mnt/dyjc/script/bootime.sh
+

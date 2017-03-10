@@ -1,0 +1,25 @@
+#!/bin/sh
+
+echo "On dyjc param reset..."
+
+echo "Deleting user configurations..."
+FILE_PATH=/mnt/dyjc/set/user
+for FILE in $FILE_PATH/*
+do
+	if [ "$FILE" == "$FILE_PATH/httx.ini" ]; then
+		echo "keep $FILE"
+	elif [ "$FILE" == "$FILE_PATH/ppp.ini" ]; then
+		echo "keep $FILE"
+	elif [ "$FILE" == "$FILE_PATH/flowctrl.ini" ]; then
+		echo "keep $FILE"
+	elif [ "$FILE" == "$FILE_PATH/forward.ini" ]; then
+		echo "keep $FILE"
+	elif [ "$FILE" == "$FILE_PATH/upchannl.ini" ]; then
+		echo "keep $FILE"
+	elif [ "$FILE" == "$FILE_PATH/ipconfig.ini" ]; then
+		echo "keep $FILE"
+	else
+		echo "delete $FILE"
+		rm -f $FILE
+	fi
+done

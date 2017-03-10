@@ -1,0 +1,29 @@
+#!/bin/sh
+#function: package all zone files
+
+#assige value
+ZONEDIRS=$1
+DESTDIR=$2
+
+#check parameter
+if [ "$ZONEDIRS" == "" ];then
+	ZONEDIRS=default
+fi
+if [ "$DESTDIR" == "" ];then
+	DESTDIR=zone
+fi
+
+#make dir
+mkdir -p ./${DESTDIR}/
+
+#romove old file
+rm -fr ./${DESTDIR}/*
+
+#copy file
+cp -f ./*.ini ./${DESTDIR}/
+
+#working
+for i in ${ZONEDIRS}
+do
+	./package_zone.srt $i ${DESTDIR}
+done

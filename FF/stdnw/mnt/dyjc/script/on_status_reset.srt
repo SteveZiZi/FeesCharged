@@ -1,0 +1,7 @@
+echo "On dyjc mem reset..."
+
+echo "Deleting context & energy & status..."
+rm -f /mnt/ramdisk/*.dat
+rm -f /mnt/ramdisk/*.bin
+rm -f /mnt/data/*.dat
+

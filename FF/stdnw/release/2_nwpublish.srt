@@ -1,0 +1,24 @@
+#!/bin/sh
+#function: DYJC embed software release
+
+PREFIX=dyjc
+DEVMODE=6100
+AREACODE=stdnw
+VERSION=$1
+SUFFIX=$2
+FACTORYDIR="dyjc system resource zone"
+UPDATEDIR="dyjc zone"
+RELEASEDIR=dyjcupdate
+
+#package factory files
+./dyjcrelease.srt "$PREFIX" "$DEVMODE" "$AREACODE" "$VERSION" "$SUFFIX" "factory" "$FACTORYDIR" "$RELEASEDIR"
+
+#package update files
+rm -fr ./dyjc/program/dyjcd
+rm -fr ./dyjc/register
+rm -fr ./dyjc/script
+rm -fr ./dyjc/set
+./dyjcrelease.srt "$PREFIX" "$DEVMODE" "$AREACODE" "$VERSION" "$SUFFIX" "update" "$UPDATEDIR" "$RELEASEDIR"
+
+#package source files
+./sourcerelease.srt "$PREFIX" "$DEVMODE" "$AREACODE" "$VERSION" "$SUFFIX"

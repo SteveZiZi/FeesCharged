@@ -1,0 +1,79 @@
+#!/bin/sh
+# Path to pppMuxd binary, and short-form for messages
+pppMuxExe=/usr/sbin/pppMuxd
+executable=pppMuxd
+prog=pppMuxd
+RETVAL=0
+if [ "$2" = "" ]; then
+	let TTY_ID=1
+else
+	let TTY_ID=$2-1
+fi
+TTY_NAME="ttyS$TTY_ID"
+if [ "$3" = "" ]; then
+        let BAUD=19200
+else
+        let BAUD=$3
+fi
+
+if [ "$4" = "" ]; then
+        MODEM_TYPE="generic"
+else
+        MODEM_TYPE=$4
+fi
+OPTIONS="-p /dev/$TTY_NAME -n -r -f 512 -b $BAUD -m $MODEM_TYPE -s /dev/ttyS1 /dev/ptmx /dev/ptmx /dev/ptmx"
+
+# Functions
+start() {
+
+        # See if it's already running.
+        pid=`pidof $executable`
+        if [ -n "$pid" ] && ps h $pid >/dev/null 2>&1; then
+	    echo -n "Starting pppMux"
+	    echo
+	    echo -n "pppMux is already running"
+	    echo
+	    return
+	fi
+  	
+        echo "Starting pppMux " 
+        exec $pppMuxExe $OPTIONS
+        RETVAL=$?
+        touch /var/lock/pppMuxd0
+	echo          
+        return $RETVAL
+}
+stop() {
+  echo -n "Stopping pppMux "
+	killall $executable
+	RETVAL=$?
+	rm -f /var/lock/pppMuxd0
+	echo
+}
+
+# See how we were called.
+case "$1" in
+  start)
+	start
+	;;
+  stop)
+	stop
+	;;
+  status)
+        status $pppMuxExe
+	RETVAL=$?
+	;;
+  restart)
+	stop
+	start
+	;;
+  condrestart)
+        stop
+        start
+	;;
+  *)
+	echo $"Usage: $prog {start|stop|restart|condrestart|status} {portno} {baud} {modem_type}"
+	exit 1
+esac
+
+exit $RETVAL

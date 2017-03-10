@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/CostCtrlTerminal">
+        <file>CostCtrlTerminal.qss</file>
+    </qresource>
+    <qresource prefix="/images">
+        <file alias="splash.png">images/splash.png</file>
+        <file alias="topTitle.png">images/topTitle.png</file>
+    </qresource>
+</RCC>

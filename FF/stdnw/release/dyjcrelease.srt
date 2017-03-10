@@ -1,0 +1,75 @@
+#!/bin/sh
+#function: DYJC embed software release
+#param1: prefix
+#param2: device mode
+#param3: area code
+#param4: version
+#param5: suffix
+#param6: type[update|factory]
+#param7: update dir
+#param8: release dir
+
+#assige value
+PREFIX=$1
+DEVMODE=$2
+AREACODE=$3
+VERSION=$4
+SUFFIX=$5
+TYPE=$6
+UPDATEDIR=$7
+RELEASEDIR=$8
+
+#check parameter
+if [ "$PREFIX" == "" ];then
+	PREFIX=dyjc
+fi
+if [ "$DEVMODE" == "" ];then
+	DEVMODE=6100
+fi
+if [ "$AREACODE" == "" ];then
+	AREACODE=gd
+fi
+if [ "$VERSION" == "" ];then
+	VERSION=0.00
+fi
+if [ "$TYPE" == "" ];then
+	TYPE=update
+fi
+if [ "$UPDATEDIR" == "" ];then
+	UPDATEDIR=dyjc
+fi
+if [ "$RELEASEDIR" == "" ];then
+	RELEASEDIR=dyjcupdate
+fi
+
+#prepare
+CURTIME=$(date +%Y%m%d)
+EXTENSION=.tgz
+UPDATEFILE=update$EXTENSION
+UPDATEKEY=update.key
+UPDATEMD5=update.md5
+CURDIR=$(pwd)
+
+PACKAGEDIR=/home/mypublish
+mkdir -p $PACKAGEDIR
+
+#release package
+RELEASEPACKAGE=${PREFIX}_${DEVMODE}_${AREACODE}_${TYPE}_v${VERSION}_${CURTIME}
+if [ "$SUFFIX" != "" ];then
+	RELEASEPACKAGE=${RELEASEPACKAGE}_${SUFFIX}
+fi
+RELEASEPACKAGE=${RELEASEPACKAGE}${EXTENSION}
+
+rm -fr ${PACKAGEDIR}/*
+cp -fr ${UPDATEDIR} ${PACKAGEDIR}/
+cd ${PACKAGEDIR}
+tar -czvf ${UPDATEFILE} ${UPDATEDIR}
+md5sum ${UPDATEFILE} > ${UPDATEMD5}
+
+cd ${CURDIR}
+cp -f ${PACKAGEDIR}/${UPDATEFILE} ${RELEASEDIR}/
+cp -f ${PACKAGEDIR}/${UPDATEMD5} ${RELEASEDIR}/
+rm -f ${RELEASEDIR}/${UPDATEKEY}
+echo MPVersion=${VERSION} >> ${RELEASEDIR}/${UPDATEKEY}
+tar -czvf ${RELEASEPACKAGE} ${RELEASEDIR}
+

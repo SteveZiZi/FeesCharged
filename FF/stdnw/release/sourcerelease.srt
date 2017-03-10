@@ -1,0 +1,69 @@
+#!/bin/sh
+#function: copy source file and package
+#param1: prefix
+#param2: device mode
+#param3: area code
+#param4: version
+#param5: suffix
+
+#romove old file
+rm -fr ./productline/*
+
+#make root dir
+mkdir -p ./productline/project/
+
+#copy file
+echo "copy coreassets,please wait a minute..."
+cp -fr ../../coreassets/ ./productline/
+
+#remove 
+find ./productline/ -type d -name ".svn"|xargs rm -rf
+
+#copy project
+echo "copy project source,please wait a minute..."
+#cp -fr ../lib/ ./productline/project/
+cp -fr ../source/ ./productline/project/
+cp -fr ../vsnet/ ./productline/project/
+
+#remove 
+find ./productline/project/ -type d -name ".svn"|xargs rm -rf
+find ./productline/project/source/ -type f -name "*.d"|xargs rm -rf
+find ./productline/project/source/ -type f -name "*.o"|xargs rm -rf
+find ./productline/project/source/ -type f -name "*.a"|xargs rm -rf
+find ./productline/project/source/ -type f -name "*.so"|xargs rm -rf
+find ./productline/project/vsnet/ -type d -name "Debug"|xargs rm -rf
+
+#package source
+#assige value
+PREFIX=$1
+DEVMODE=$2
+AREACODE=$3
+VERSION=$4
+SUFFIX=$5
+
+#check parameter
+if [ "$PREFIX" == "" ];then
+	PREFIX=dyjc
+fi
+if [ "$DEVMODE" == "" ];then
+	DEVMODE=6100
+fi
+if [ "$AREACODE" == "" ];then
+	AREACODE=gd
+fi
+if [ "$VERSION" == "" ];then
+	VERSION=0.00
+fi
+
+#prepare
+CURTIME=$(date +%Y%m%d)
+EXTENSION=.tgz
+
+#release source
+SOURCEPACKAGE=${PREFIX}_${DEVMODE}_${AREACODE}_source_v${VERSION}_${CURTIME}
+if [ "$SUFFIX" != "" ];then
+	SOURCEPACKAGE=${SOURCEPACKAGE}_${SUFFIX}
+fi
+SOURCEPACKAGE=${SOURCEPACKAGE}${EXTENSION}
+tar -czvf ${SOURCEPACKAGE} ./productline
+

@@ -1,0 +1,8 @@
+#!/bin/sh
+echo "On PPP clear..."
+
+#make sure PPP info has been cleared.
+/mnt/dyjc/script/ppp_gprs_off.srt
+/mnt/dyjc/script/ppp_cdma_off.srt
+/mnt/dyjc/script/ppp_muxd.srt stop
+

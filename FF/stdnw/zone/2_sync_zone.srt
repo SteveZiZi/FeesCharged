@@ -1,0 +1,7 @@
+#!/bin/sh
+#function: sync zone files to mnt
+
+#copy file
+cp -fr ./zone/*.ini ../mnt/zone/
+cp -fr ./zone/*.tgz ../mnt/zone/
+

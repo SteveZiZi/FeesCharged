@@ -1,0 +1,6 @@
+#!/bin/sh
+
+echo "On factory reset..."
+rm -f /mnt/.erased.flag
+rm -f /mnt/.inited.flag
+

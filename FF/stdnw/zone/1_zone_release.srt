@@ -1,0 +1,42 @@
+#!/bin/sh
+#function: Zone configure files release
+
+PREFIX=dyjc
+DEVMODE=6100
+AREACODE=stdnw
+VERSION=xxx
+SUFFIX=$1
+
+ZONEDIRS="default gz"
+UPDATEDIR=zone
+RELEASEDIR=dyjcupdate
+
+UPDATEKEY=auto_update.key
+
+#cp so file
+for i in ${ZONEDIRS}
+do
+	cp -f ../source/zone/$i/*.so $i/dyjc/program/
+done
+
+#package zone one by one
+./package_zones.srt "${ZONEDIRS}" "${UPDATEDIR}"
+
+#copy files & tar
+mkdir -p ./${RELEASEDIR}/
+rm -fr ./${RELEASEDIR}/*
+cp -f ./*.doc ./${RELEASEDIR}/
+cp -f ./*.txt ./${RELEASEDIR}/
+tar -czvf ./${RELEASEDIR}/update.tgz ${UPDATEDIR}
+echo MPVersion=999 >> ./${RELEASEDIR}/${UPDATEKEY}
+
+#release update packate
+CURTIME=$(date +%Y%m%d)
+EXTENSION=.tgz
+UPDATEPACKAGE=${PREFIX}_${DEVMODE}_${AREACODE}_zone_v${VERSION}_${CURTIME}
+if [ "$SUFFIX" != "" ];then
+	UPDATEPACKAGE=${UPDATEPACKAGE}_${SUFFIX}
+fi
+UPDATEPACKAGE=${UPDATEPACKAGE}${EXTENSION}
+
+tar -czvf ${UPDATEPACKAGE} ${RELEASEDIR}

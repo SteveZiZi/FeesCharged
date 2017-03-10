@@ -1,0 +1,39 @@
+#!/bin/sh
+#function: build zone code and main code
+#usage ./build.srt all 
+
+MAKE="make rebuild"
+
+#zone dir, please append other directory here.
+ZONEDIRS="default gz"
+
+#del application dyjc
+rm -f ./main/dyjc
+
+echo "build main code"
+$MAKE
+
+if [ -f ./main/dyjc ];then
+	echo "build completely!!!"
+else
+	echo "build error!!!"
+	exit -1
+fi
+
+for i in ${ZONEDIRS}
+do
+	echo "build zone[$i] code......"
+	cd ./zone/$i
+	$MAKE
+	cd ../..
+
+	if [ -f ./zone/$i/libzonex.so ];then
+		echo "build completely!!!"
+	else
+		echo "build error!!!"
+		exit -1
+	fi
+
+done
+
+

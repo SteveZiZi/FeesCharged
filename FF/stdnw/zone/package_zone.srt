@@ -1,0 +1,38 @@
+#!/bin/sh
+#function: package zone files
+#param 1: zone dir
+#param 2: dest dir
+
+#assige value
+ZONEDIR=$1
+DESTDIR=$2
+
+#check parameter
+if [ "$ZONEDIR" == "" ];then
+	ZONEDIR=default
+fi
+if [ "$DESTDIR" == "" ];then
+	DESTDIR=zone
+fi
+
+#make dir
+mkdir -p ./system/
+mkdir -p ./dyjc/program/
+mkdir -p ./dyjc/register/
+mkdir -p ./dyjc/set/default/
+
+#romove old file
+rm -fr ./system/*
+rm -fr ./dyjc/program/*
+rm -fr ./dyjc/register/*
+rm -fr ./dyjc/set/default/*
+
+#copy file
+cp -f ./${ZONEDIR}/system/*.ini ./system/
+cp -f ./${ZONEDIR}/dyjc/program/*.so ./dyjc/program/
+cp -f ./${ZONEDIR}/dyjc/register/*.ini ./dyjc/register/
+cp -f ./${ZONEDIR}/dyjc/set/default/*.ini ./dyjc/set/default/
+
+#release
+tar -czvf ${DESTDIR}/${ZONEDIR}.tgz dyjc system
+

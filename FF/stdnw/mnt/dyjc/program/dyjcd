@@ -1,0 +1,33 @@
+#!/bin/sh
+
+#call watchdog
+watchdog&
+
+#call user config script first
+/mnt/dyjc/script/usercfg.sh
+
+export LD_LIBRARY_PATH="/mnt/dyjc/program"
+
+if [ -r /mnt/update/up_ready.key ]; then
+	echo "Receive update key,now updating..."
+	rm -f /mnt/update/up_ready.key
+	cd /mnt/
+	tar -zxvf /mnt/update/update.tgz
+	chmod +x /mnt/dyjc/script/*
+	rm -f /mnt/update/update.tgz
+	reboot
+fi
+
+count=0
+while [ 1 ] ;do
+	chmod +x /mnt/dyjc/program/dyjc
+	chmod +x /mnt/dyjc/program/*.so
+	/mnt/dyjc/program/dyjc -exec all
+	sleep 1
+	let count=count+1
+	echo "ptu running times is $count"
+	if [ "$count" -gt 3600 ]; then
+		echo "Will reboot because of DJS running too many times"
+		reboot
+	fi
+done

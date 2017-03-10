@@ -1,0 +1,112 @@
+QWidget {
+	color: white;
+	background-color: #17365D;
+	border: none;
+	font-size: 12pt;
+}
+
+SplashDlg, QLabel#localShowLabel {
+	background-image: url(:/images/splash.png);
+}
+
+QLabel {
+    padding-left:10px;
+    padding-right:10px;
+}
+
+QGroupBox {
+	color: #3C3C3C;
+	background-color: #C2D1E3;
+}
+
+/************************************
+ * CPublicNotice
+************************************/
+CPublicNotice QLabel#topBar,QLabel#titleLabel,QLabel#contentLabel{
+    padding-left:0px;
+    padding-right:0px;
+}
+
+CPublicNotice QLabel#titleLabel,QLabel#contentLabel{
+    border:2px solid black;
+}
+
+CPublicNotice QLabel#topBar{
+    background-image: url(:/images/topTitle.png);
+}
+/************************************
+ *end CPublicNotice
+************************************/
+
+/************************************
+ * TopBar
+************************************/
+QLabel#topBar_caption, QLabel#topBar_menuIcon {
+	color: #3C3C3C;
+	background-color: #C2D1E3;
+	font-weight: bold;
+}
+/************************************
+ * end TopBar
+************************************/
+ 
+/***********************************
+ *  Bottom Bar
+***********************************/
+QLabel#bottomBar_systemTime, QLabel#bottomBar_status{
+	color: #3C3C3C;
+	background-color: #C2D1E3;
+	font-weight: bold;
+}
+/******************************
+ *  Bottom Bar End
+******************************/
+
+/******************************
+ *  NaviMenu Bar
+******************************/
+MPushButton {
+	color: #3C3C3C;
+	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #FFFFFF, stop: 0.4 #FEFEFE,
+                                 stop: 0.6 #EAEAEA, stop: 1.0 #FFFFFF);
+	font-size: 13pt;
+	text-align: center;
+	padding: -2;
+	margin: 0;
+}
+
+MPushButton:pressed {
+	background-color: #0D212E;
+	color: #157EC9;
+}
+/******************************
+ *  NaviMenu Bar End
+******************************/
+
+/*******************************
+**  MTableWidget
+*******************************/
+MTableWidget {
+    selection-color: white;
+    selection-background-color: #53C2FF;    
+    alternate-background-color:#151515;
+	color: #3C3C3C;
+    background-color:white;
+    font-weight: bold;
+}
+/*******************************
+**  MTableWidget End
+*******************************/
+
+/*******************************
+**  QHeaderView
+*******************************/
+QHeaderView::section {
+	color: #3C3C3C;
+    background-color:white;
+    border: 1px solid #4A6C96;
+}
+/*******************************
+**  QHeaderView End
+*******************************/

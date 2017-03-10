@@ -1,0 +1,19 @@
+#!/bin/sh
+#function: Zone package update
+#param1: update package
+
+#assige value
+PACKAGE=$1
+
+#check parameter
+if [ "$PACKAGE" == "" ];then
+	PACKAGE=/mnt/zone/update.tgz
+fi
+
+#prepare
+UPDATEDEST=/mnt/update/update.tgz
+UPDATEKEY=/mnt/update/up_ready.key
+
+#working
+cp -fr ${PACKAGE} ${UPDATEDEST}
+touch ${UPDATEKEY}

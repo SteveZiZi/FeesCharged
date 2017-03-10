@@ -1,0 +1,5 @@
+#!/bin/sh
+
+/mnt/dyjc/script/on_data_reset.srt
+/mnt/dyjc/script/on_param_reset.srt
+
